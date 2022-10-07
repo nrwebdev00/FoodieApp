@@ -1,0 +1,127 @@
+.profile{
+  width: 100%;
+  background-color: var(--accent-color);
+  height: 100%;
+  padding-block: 10em;
+}
+
+.profile-container{
+  max-width: 131em;
+  margin: 0 auto;
+  border: 3px solid var(--primary-color);
+  height: 100%;
+  border-radius: 3em;
+  padding: 2em;
+
+  .edit-bar{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .profile-info{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 3em;
+
+    .profile-image-wrapper{
+      position: relative;
+      height: 40em;
+
+
+      svg{
+        position: absolute;
+        top: 100%;
+        left: 5%;
+        font-size: var(--fs-650);
+      }
+
+      img{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        max-height: 40em;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+    }
+
+    .profile-info-wrapper{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      h2, h1{
+        text-transform: capitalize;
+      }
+
+
+    }
+
+  }
+
+  .profile-bio{
+    width: 75%;
+    margin: 3em auto;
+
+    h2{
+      text-align: center;
+    }
+
+    p, textarea{
+      width: 100%;
+      min-height: 10em;
+      border: 2px solid var(--primary-color);
+      padding: .75em;
+      font-size: var(--fs-550);
+      color: var(--text-primary-color);
+      text-align: justify;
+      line-height: 1.65;
+      letter-spacing: 1px;
+    }
+
+    textarea{
+        background-color: var(--primary-lighter-color);
+
+        &:active, &:focus{
+          outline: none;
+          border: inherit;
+        }
+    }
+
+
+  }
+
+  .profile-link{
+    width: 75%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+
+  }
+
+  .profile-edit-links{
+    width: 75%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+
+  }
+}
+
+.profile-location{
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+}

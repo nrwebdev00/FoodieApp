@@ -1,0 +1,25 @@
+.login, .register{
+  height: 100%;
+  width: 100%;
+  margin-top: 5%;
+  border: 3px solid var(--accent-darker-color);
+  background-color: var(--accent-color);
+  border-radius: 3em;
+  box-shadow: 3px 3px 6px rgba(0,0,0, .75);
+  padding: 2em;
+  .login-title, .register-title{
+    display: flex;
+    justify-content: center;
+    img{
+      max-height: 25vh;
+      width: 50%;
+      object-fit: cover;
+    }
+  }
+
+  .login-form, .register-form{
+    width: 66%;
+    margin: 2.5% auto;
+    height: 100%;
+  }
+}

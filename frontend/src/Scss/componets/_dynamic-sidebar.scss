@@ -1,0 +1,31 @@
+.dynamic-sidebar{
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-auto-flow: column;
+  height: 100%;
+  gap: 2em;
+}
+aside {
+  width: 20vw;
+}
+aside:last-child {
+  grid-column-start: 2;
+}
+aside:first-child {
+  grid-column-end: -2;
+}
+@media screen and (max-width: 480px) {
+  .dynamic-sidebar{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    aside{
+      width: 100%;
+    }
+  }
+}
+
+// To Use Parent Element needs a class name of dynamic-sidebar.
+// 2 Child components Section(main-display), aside(side-bar)
+// Left Sidebar aside needs to be first child component
+// Right Sidebar  aside needs to be last child component

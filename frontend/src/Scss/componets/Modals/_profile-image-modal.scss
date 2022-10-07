@@ -1,0 +1,28 @@
+.profile-image-modal{
+  width: 100%;
+
+  .top-bar{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .current-image{
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 2em;
+    .image-wrapper{
+
+      h3{
+
+      }
+      img{
+        width: 100%;
+        max-width: 20em;
+        height: 100%;
+        max-height: 20em;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+    }
+  }
+}

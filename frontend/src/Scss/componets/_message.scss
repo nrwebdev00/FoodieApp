@@ -1,0 +1,25 @@
+.message{
+  width: 100%;
+  margin: .25em .5em;
+  padding: .5em 1em;
+  border-radius: 1em;
+  font-size: var(--fs-550);
+}
+
+.message-error{
+  border: 3px solid var(--warn-darker-color);
+  background-color: var(--warn-lighter-color);
+  color: var(--text-warn-color);
+}
+
+.message-primary{
+  border: 3px solid var(--primary-darker-color);
+  background-color: var(--primary-lighter-color);
+  color: var(--text-primary-color);
+}
+
+.message-accent{
+  border: 3px solid var(--accent-darker-color);
+  background-color: var(--accent-lighter-color);
+  color: var(--text-accent-color);
+}

@@ -1,0 +1,75 @@
+.edit-image{
+  width:100%;
+  margin-right: 1.5em;
+  border: 2px solid var(--primary-darker-color);
+  background-color: var(--primary-lighter-color);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+
+  .edit-bar{
+    width: 100%;
+    border-bottom: 1px dashed var(--primary-darker-color);
+    background-color: var(--text-light-color);
+    ul{
+      height: 7.5vh;
+      width: 100%;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      gap: 1em;
+      padding-inline: 1em;
+
+      li{
+        height: 5.5vh;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        gap: .5em
+      }
+    }
+  }
+
+  .edit-bar-options{
+    width: 100%;
+    border-bottom: 4px solid var(--accent-color);
+    background-color: var(--text-light-color);
+    ul{
+      width: 100%;
+
+      .image-options{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 2.5em;
+        padding: 2em;
+      }
+    }
+  }
+  .preview-image-container{
+  }
+
+}
+.option-set{
+  color: var(--primary-darker-color)
+}
+.option-not-set{
+  color: var(--accent-color)
+}
+
+
+@media only screen and (max-width: 1021px)  {
+
+  .edit-bar-options{
+
+    .image-options{
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+    }
+  }
+}

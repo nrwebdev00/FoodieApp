@@ -1,0 +1,27 @@
+.modal-wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  width: 100%;
+}
+
+.main-view-modal{
+  width: 100%;
+}
+
+.close-modal{
+  height: 100%;
+  font-size: var(--fs-550);
+  color: var(--text-warn-color);
+  font-weight: var(--fw-bold);
+  border: 2px solid var(--warn-darker-color);
+  background-color: var(--warn-lighter-color);
+  padding: .5em;
+  line-height: 1;
+  border-radius: .5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}

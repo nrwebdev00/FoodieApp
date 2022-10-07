@@ -1,0 +1,72 @@
+// Global btns styles
+.btn{
+  border-radius: .5em;
+}
+.btn-group{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 2em;
+}
+
+// btns Styles
+.modal-btn{
+  cursor: pointer;
+  width: 100%;
+  max-width: 6.875em;
+  border: 2px solid var(--primary-darker-color);
+  background-color: var(--primary-lighter-color);
+  color: var(--text-primary);
+  font-size: var(--fs-400);
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.form-search-btn{
+  width: 20%;
+  min-width: 4.8em;
+  height: 40%;
+  padding-inline: .5em;
+  border: 2px solid var(--primary-darker-color);
+  background-color: var(--primary-lighter-color);
+  font-size: var(--fs-550);
+  letter-spacing: 1px;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+.close-option-btn{
+  padding: .25em;
+  font-size: var(--fs-500);
+  border: 2px solid var(--warn-darker-color);
+  background-color: var(--warn-light-color);
+  color: var(--text-warn-color);
+  cursor: pointer;
+}
+
+.image-options-btn{
+  padding: .25em;
+  border: 2px solid var(--primary-darker-color);
+  background-color: var(--primary-lighter-color);
+  color: var(--text-primary-color);
+  font-size: var(--fs-500);
+}
+
+.submit-btn{
+  width: 100%;
+  font-size: var(--fs-700);
+  border: 3px solid var(--primary-darker-color);
+  background-color: var(--primary-lighter-color);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+
+// Hover Effect
+.raise-up-hover-effect{
+  &:hover,&:focus{
+    box-shadow: 0 0.5em 0.5em -0.4em var(--primary-darker-color);
+    transform: translateY(-0.25em);
+    transition: ease-in-out .3s;
+  }
+}

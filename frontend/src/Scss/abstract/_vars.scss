@@ -1,0 +1,64 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500&display=swap");
+
+:root {
+  --primary-color: #9e6240;
+  --primary-lighter-color: #e2d0c6;
+  --primary-mid-color: hsl(21, 33%, 70%);
+  --primary-darker-color: #82462a;
+  --text-light-color: #f8f2dc;
+  --text-primary-color: #82462a;
+  --accent-color: #389b9f;
+  --accent-lighter-color: #cadbdc;
+  --accent-darker-color: #356b6d;
+  --text-accent-color: #389b9f;
+  --text-accent-lighter-color: #cadbdc;
+  --text-accent-darker-color: #356b6d;
+  --warn-color: #cd4631;
+  --warn-lighter-color: #f0c8c1;
+  --warn-darker-color: #ba2f1f;
+  --text-warn-color: #cd4631;
+  --text-warn-lighter-color:#f0c8c1;
+  --text-warn-darker-color: #ba2f1f;
+
+
+  --ff-default: 'Raleway' sans-serif;
+
+  --fs-100: .8125em;
+  --fs-200: .9375em;
+  --fs-300: 1em;
+  --fs-400: 1.25em;
+  --fs-500: 1.5em;
+  --fs-550: 1.85em;
+  --fs-600: 2.125em;
+  --fs-650: 2.4689em;
+  --fs-700: 2.8125em;
+  --fs-800: 3.5em;
+  --fs-900: 7em;
+
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+
+  --lh-100: 1em;
+  --lh-200: 1.25em;
+  --lh-300: 1.5em;
+  --lh-400: 1.75em;
+  --lh-500: 2em;
+  --lh-600: 2.5em;
+  --lh-700: 3em;
+  --lh-800: 3.5em;
+  --lh-900: 7em;
+
+  --space-100: .5em;
+  --space-200: .75em;
+  --space-300: 1em;
+  --space-400: 1.5em;
+  --space-500: 2.0em;
+  --space-600: 2.5em;
+  --space-700: 3em;
+  --space-800: 5em;
+  --space-900: 7.5em;
+  --space-1000: 10em;
+
+}
