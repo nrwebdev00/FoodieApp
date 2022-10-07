@@ -1,10 +1,13 @@
 {
   "name": "foodieapp",
   "version": "1.0.0",
-  "description": "Recipe App Socail Network",
+  "description": "Recipe App Social Network",
   "main": "index.js",
+  "type":"module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "nodemon backend/server",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [
     "Recipes",
