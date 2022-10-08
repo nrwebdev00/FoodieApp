@@ -1,9 +1,13 @@
 import path from 'path';
 import dotenv from 'dotenv';
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import colors from 'colors';
 import morgan from 'morgan';
 import cloudinary from 'cloudinary';
+
+import userRoutes from './routes/Users/userRoutes.js';
+import profileRoutes from './routes/Users/profileRoutes.js';
 
 import errorResponse from './middleware/error.js';
 import connectDB from './config/db.js';
@@ -25,7 +29,8 @@ if(process.env.NODE_ENV === 'development'){
   app.use(morgan('dev'))
 }
 
-app.use(express.json())
+app.use(express.json());
+app.use(cookieParser());
 
 // TEST ROUTE
 app.get('/', (req, res) =>{
@@ -33,6 +38,15 @@ app.get('/', (req, res) =>{
 })
 
 // Routes
+  // Users
+  app.use('/api/users', userRoutes)
+  app.use('api/profile', profileRoutes)
+
+  // Recipes
+
+  // Articles
+
+  // Uploads
 
 
 // Static

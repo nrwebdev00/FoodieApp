@@ -1,4 +1,4 @@
-import mongoose from mongoose;
+import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 
@@ -6,24 +6,32 @@ const userSchema = mongoose.Schema(
   {
     userName:{
       type: String,
-      required: true,
-      unique: true
+      required: [true, 'User Name is Required, Please Enter User Name.'],
+      unique: true,
     },
     email:{
       type: String,
-      required: true,
-      unique: true
+      required: [true, 'Email is Required, Please Enter Email.'],
+      unique: true,
+      match:[
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        'Email not Valid, Please Enter Valid Email address'
+      ]
     },
     password:{
       type: String,
-      required: true
+      required: [true, 'Password is Required, Please Enter a Password'],
+      select: false
     },
     role:{
       type: String,
       enum: ['user', 'staff', 'admin', 'moderator'],
       default: 'user',
-      required: true
-    }
+    },
+    resetPasswordToken: String,
+    resetPasswordExpire: Date,
+
+
   },
   {
     timestamps: true,

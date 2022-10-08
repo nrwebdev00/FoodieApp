@@ -15,10 +15,12 @@ const profileSchema = mongoose.Schema(
     location:{
       type: String,
       required: true,
+      default: 'USA'
     },
     bio:{
       type: String,
       required: true,
+      default: 'New Bio Coming Soon...'
     },
     avatar:{
       type: String,
