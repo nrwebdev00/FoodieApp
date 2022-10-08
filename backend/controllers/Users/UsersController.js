@@ -74,6 +74,7 @@ const loginUser = asyncHandler(async(req, res, next) =>{
 // @access PRIVATE - SAME USER ONLY
 const updateUser = asyncHandler(async(req, res) =>{
 
+  res.json({ success: true})
 })
 
 // @desc Delete User and Profile

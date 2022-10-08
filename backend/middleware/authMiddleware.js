@@ -1,81 +1,57 @@
 import jwt from 'jsonwebtoken';
 import asyncHandler from 'express-async-handler';
 
-import User from '../models/Users/UserModel.js'
+import User from '../models/Users/UserModel.js';
+import ErrorHandler from "../utlis/errorHandler.js";
 
 const protectUserLogin = asyncHandler(async (req, res, next) =>{
   let token
 
-  if (
+  if(
     req.headers.authorization &&
     req.headers.authorization.startsWith('Bearer')
-  ) {
-    try {
-      token = req.headers.authorization.split(' ')[1]
+  ){
+    token = req.headers.authorization.split(' ')[1];
+  }
 
-      const decoded = jwt.verify(token, process.env.JWT_SECRET)
-
-      req.user = await User.findById(decoded.id).select('-password')
-
-      next()
-    } catch (error) {
-      console.error(error)
-      res.status(401)
-      throw new Error('Not authorized, token failed')
+  if(!token){
+    return next(new ErrorHandler(process.env.ERROR_NOT_AUTHORIZED, 401));
+  }
+  try {
+    // Decode token and get user --> req.user now available
+    const decoded = jwt.verify(token, process.env.JWT_SECRET)
+    req.user = await User.findById(decoded.id)
+    if(!req.user){
+      return next(new ErrorHandler(process.env.ERROR_NOT_AUTHORIZED, 401))
     }
+    next()
+  } catch (error) {
+    return next(new ErrorHandler(process.env.ERROR_NOT_AUTHORIZED, 401))
   }
 
-  if (!token) {
-    res.status(401)
-    throw new Error('Not authorized, no token')
-  }
 })
 
 const AdminUserAuth = (req, res, next) =>{
-  if(req.user){
-    if(req.user.role === 'admin'){
-      next()
-    }else{
-      res.status(401)
-      throw new Error('Not Authorized as role.')
-    }
-  }
+ if(req.user.role !== 'admin'){
+  return next(new ErrorHandler(process.env.ERROR_NOT_AUTHORIZED, 401))
+ }
+ next()
 }
 
 const StaffUserAuth = (req, res, next) =>{
-  if(req.user){
-    if(req.user.role === 'admin'){
-      next()
-      return
-    }
-    if (req.user.role === 'staff') {
-      next()
-      return
-    } else {
-      res.status(401)
-      throw new Error('Not Authorized as role.')
-    }
+  if(req.user.role === 'admin' || req.user.role === 'staff'){
+    next()
+  }else{
+    return next(new ErrorHandler(process.env.ERROR_NOT_AUTHORIZED, 401))
   }
 }
 
 
 const ModeratorUserAuth = (req, res, next) =>{
-  if(req.user){
-    if(req.user.role === 'admin'){
-      next()
-      return
-    }
-    if (req.user.role === 'staff') {
-      next()
-      return
-    }
-    if(req.user.role === 'moderator'){
-      next()
-      return
-    }else {
-      res.status(401)
-      throw new Error('Not Authorized as role.')
-    }
+  if(req.user.role === 'admin' || req.user.role === 'staff' || req.user.role === 'moderator'){
+    next()
+  } else{
+    return next(new ErrorHandler(process.env.ERROR_NOT_AUTHORIZED, 401))
   }
 }
 
