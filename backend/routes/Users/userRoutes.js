@@ -3,14 +3,25 @@ import express from 'express';
 const router = express.Router()
 
 // Controller Imports
-import{ deleteUser, loginUser, registerUser, updateUser} from '../../controllers/Users/UsersController.js';
+import{
+  deleteUser,
+  loginUser,
+  registerUser,
+  updateUser,
+  forgotPassword,
+  resetpassword,
+  confirmEmail
+} from '../../controllers/Users/UsersController.js';
 
 // Middleware Imports
-import { protectUserLogin, AdminUserAuth, StaffUserAuth } from '../../middleware/authMiddleware.js';
+import { protectUserLogin, AdminUserAuth } from '../../middleware/authMiddleware.js';
 
 router.post('/login', loginUser)
 router.post('/register', registerUser)
-router.put('/', protectUserLogin, StaffUserAuth, updateUser)
+router.post('/forgotpassword', forgotPassword)
+router.get('/confirmemail', confirmEmail)
+router.put('/', protectUserLogin, updateUser)
+router.put('/resetpassword/:resettoken', resetpassword)
 router.delete('/', protectUserLogin, AdminUserAuth, deleteUser)
 
 export default router
