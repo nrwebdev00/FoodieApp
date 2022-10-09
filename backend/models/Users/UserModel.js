@@ -36,6 +36,10 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    mustChangePassword:{
+      type: Boolean,
+      default: false
+    },
     createdAt:{
       type: Date,
       default: Date.now,
@@ -79,7 +83,6 @@ userSchema.methods.getForgotPasswordToken = function (){
 
 // Generate Confirm Email Token
 userSchema.methods.generateEmailConfirmToken = function(next){
-
   const confirmationToken = crypto.randomBytes(20).toString('hex');
 
   this.ConfirmEmailToken = crypto
@@ -90,7 +93,6 @@ userSchema.methods.generateEmailConfirmToken = function(next){
     const confirmTokenExtend = crypto.randomBytes(100).toString('hex');
     const confirmTokenCombined = `${confirmationToken}.${confirmTokenExtend}`
     return confirmTokenCombined;
-
 }
 
 const User = mongoose.model('User', userSchema);

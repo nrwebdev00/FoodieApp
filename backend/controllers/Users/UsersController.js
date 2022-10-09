@@ -73,6 +73,10 @@ const loginUser = asyncHandler(async(req, res, next) =>{
   if(!isPasswordMatch){
     return next(new ErrorHandler(`Invalid User Information`, 401))
   }
+  if(user.mustChangePassword){
+    return next(new ErrorHandler(`User Must Change Password Before Long in`, 403))
+  }
+
   sendCookieWithTokenRes(user, 200, res)
 })
 
@@ -161,6 +165,9 @@ const resetpassword = asyncHandler(async(req, res, next) =>{
   user.password = req.body.password;
   user.resetPasswordToken = undefined;
   user.resetPasswordExpire = undefined;
+  if(user.mustChangePassword){
+    user.mustChangePassword = false
+  }
   user.save()
 
   sendCookieWithTokenRes(user, 200, res)
@@ -216,6 +223,9 @@ const changePassword = asyncHandler(async(req, res, next) =>{
   }
 
   user.password = updated_password
+  if(user.mustChangePassword){
+    user.mustChangePassword = false;
+  }
   const updated_user = await user.save()
 
   if(!updated_user){
@@ -245,6 +255,36 @@ const deleteUser = asyncHandler(async(req, res, next) =>{
   }else{
     return next(new ErrorHandler('User or Profile Not Found', 401))
   }
+})
+
+// @desc Admin Create User With Roles
+// @route POST api/users/new
+// @access PRIVATE - ADMIN ONLY
+const newUser = asyncHandler(async(req, res, next) =>{
+  const { userName, name, email, password, role } = req.body;
+
+  // Check if Email or Username is in Use
+  const checkEmail = await User.findOne({ email })
+  const checkUserName = await User.findOne({ userName })
+
+  if(checkEmail){
+    return next(new ErrorHandler(`Email address of ${email} already exists.`, 400))
+  }
+  if(checkUserName){
+    return next(new ErrorHandler(`User Name of ${userName} already exists`, 400))
+  }
+
+  const user = await User.create({ userName, email, password, role, mustChangePassword: true })
+  const profile = await Profile.create({ name, user:user._id})
+
+  if(user && profile){
+    res.status(201).json({
+      success: true,
+      message: `New User, ${name} was created with email of ${email} and Username of ${userName}.`
+    })
+  }else{
+    return next(new ErrorHandler(`Server Error`, 500))
+  }
 
 })
 
@@ -256,5 +296,6 @@ export {
   resetpassword,
   confirmEmail,
   changeEmail,
-  changePassword
+  changePassword,
+  newUser
 }

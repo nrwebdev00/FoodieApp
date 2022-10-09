@@ -11,7 +11,8 @@ import{
   resetpassword,
   confirmEmail,
   changeEmail,
-  changePassword
+  changePassword,
+  newUser
 } from '../../controllers/Users/UsersController.js';
 
 // Middleware Imports
@@ -20,6 +21,7 @@ import { protectUserLogin, AdminUserAuth } from '../../middleware/authMiddleware
 router.post('/login', loginUser)
 router.post('/register', registerUser)
 router.post('/forgotpassword', forgotPassword)
+router.post('/new', protectUserLogin, AdminUserAuth, newUser)
 router.get('/confirmemail', confirmEmail)
 router.put('/resetpassword/:resettoken', resetpassword)
 router.put('/email', protectUserLogin, changeEmail)
