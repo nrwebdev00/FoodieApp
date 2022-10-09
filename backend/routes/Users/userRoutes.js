@@ -7,10 +7,11 @@ import{
   deleteUser,
   loginUser,
   registerUser,
-  updateUser,
   forgotPassword,
   resetpassword,
-  confirmEmail
+  confirmEmail,
+  changeEmail,
+  changePassword
 } from '../../controllers/Users/UsersController.js';
 
 // Middleware Imports
@@ -20,8 +21,9 @@ router.post('/login', loginUser)
 router.post('/register', registerUser)
 router.post('/forgotpassword', forgotPassword)
 router.get('/confirmemail', confirmEmail)
-router.put('/', protectUserLogin, updateUser)
 router.put('/resetpassword/:resettoken', resetpassword)
+router.put('/email', protectUserLogin, changeEmail)
+router.put('/password', protectUserLogin, changePassword)
 router.delete('/', protectUserLogin, AdminUserAuth, deleteUser)
 
 export default router

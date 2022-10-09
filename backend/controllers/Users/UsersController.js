@@ -176,13 +176,49 @@ const resetpassword = asyncHandler(async(req, res, next) =>{
   sendCookieWithTokenRes(user, 200, res)
 })
 
+// @desc Update Email Address
+// @route PUT api/users/email
+// @access PRIVATE - LOGIN
+const changeEmail = asyncHandler(async(req, res, next) =>{
+  const { updated_email } = req.body;
+  const user = await User.findById(req.user._id)
 
-// @desc Update user
-// @route PUT api/users
-// @access PRIVATE - SAME USER ONLY
-const updateUser = asyncHandler(async(req, res) =>{
+  // Check Updated Email Address
+  const checkEmail = await User.findOne({ email: updated_email })
 
-  res.json({ success: true})
+  if(checkEmail){
+    return next(new ErrorHandler(`Email Address is already in use`, 400))
+  }
+
+  user.email = updated_email;
+  user.isEmailConfirmed = false;
+
+  const confirmEmailToken = user.generateEmailConfirmToken();
+  const confirmEmailUrl = `${req.protocol}://${req.get('host',)}/api/users/confirmemail?token=${confirmEmailToken}`;
+  const message = `You are receiving this email because you need to confirm your email address. Please make a GET request to: \n\n ${confirmEmailUrl}`;
+
+  const updated_user = user.save({ validateBeforeSave: false })
+
+  if(updated_user){
+
+    const sendConfirmEmail = await sendEmail({
+      email: updated_email,
+      subject: 'Confirm Email for the Foodie App',
+      message
+    })
+
+    sendCookieWithTokenRes(user, 201, res)
+
+  }else{
+    return next(new ErrorHandler(`Server Error`, 500))
+  }
+})
+
+// @desc Update Password
+// @route PUT api/users/password
+// @access PRIVATE - LOGIN
+const changePassword = asyncHandler(async(req, res, next) =>{
+
 })
 
 // @desc Delete User and Profile
@@ -192,4 +228,13 @@ const deleteUser = asyncHandler(async(req, res) =>{
 
 })
 
-export { loginUser, registerUser, updateUser, deleteUser, forgotPassword, resetpassword, confirmEmail}
+export {
+  loginUser,
+  registerUser,
+  deleteUser,
+  forgotPassword,
+  resetpassword,
+  confirmEmail,
+  changeEmail,
+  changePassword
+}
