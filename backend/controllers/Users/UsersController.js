@@ -29,18 +29,11 @@ const registerUser = asyncHandler(async(req, res, next) => {
   }
 
   // Create User and Profile
-  const user = await User.create({
-    userName, email, password
-  })
-
-  const profile = await Profile.create({
-    name, user: user._id
-  })
+  const user = await User.create({ userName, email, password })
+  const profile = await Profile.create({ name, user: user._id })
 
   const confirmEmailToken = user.generateEmailConfirmToken();
-
   const confirmEmailUrl = `${req.protocol}://${req.get('host',)}/api/users/confirmemail?token=${confirmEmailToken}`
-
   const message = `You are receiving this email because you need to confirm your email address. Please make a GET request to: \n\n ${confirmEmailUrl}`;
 
   user.save({ validateBeforeSave: false })
@@ -80,7 +73,6 @@ const loginUser = asyncHandler(async(req, res, next) =>{
   if(!isPasswordMatch){
     return next(new ErrorHandler(`Invalid User Information`, 401))
   }
-
   sendCookieWithTokenRes(user, 200, res)
 })
 
@@ -126,11 +118,9 @@ const forgotPassword = asyncHandler(async(req, res, next) =>{
   }
 
   const resetToken = user.getForgotPasswordToken();
-
   await user.save({ validateBeforeSave: false})
 
   const resetUrl = `${req.protocol}://${req.get('host',)}/api/resetpassword/${resetToken}`;
-
   const message = `You are receiving this email because you (or someone else) has requested the reset of a password. Please make a PUT request to: \n\n ${resetUrl}`
   try {
     await sendEmail({
@@ -218,13 +208,43 @@ const changeEmail = asyncHandler(async(req, res, next) =>{
 // @route PUT api/users/password
 // @access PRIVATE - LOGIN
 const changePassword = asyncHandler(async(req, res, next) =>{
+  const user = await User.findById(req.user._id)
+  const { updated_password } = req.body;
+
+  if(!updated_password){
+    return next(new ErrorHandler('No Password to Updated', 401))
+  }
+
+  user.password = updated_password
+  const updated_user = await user.save()
+
+  if(!updated_user){
+    return next(new ErrorHandler('Unable to update password'), 500)
+  }
+
+  sendCookieWithTokenRes(user, 201, res)
 
 })
 
 // @desc Delete User and Profile
 // @route DELETE api/users
 // @access PRIVATE - ADMIN ONLY
-const deleteUser = asyncHandler(async(req, res) =>{
+const deleteUser = asyncHandler(async(req, res, next) =>{
+  const { user_id } = req.body;
+  const user = await User.findById(user_id)
+  const profile = await Profile.findOne({user: user_id})
+
+  if(user && profile){
+    await User.findByIdAndDelete(user_id);
+    await Profile.findOneAndDelete({ user: user_id});
+    res.status(201).json({
+      success: true,
+      message: 'User and Profile Deleted'
+    })
+    next()
+  }else{
+    return next(new ErrorHandler('User or Profile Not Found', 401))
+  }
 
 })
 
