@@ -49,6 +49,10 @@ const profileSchema = mongoose.Schema(
     },
     websiteUrl:{
       type: String,
+    },
+    createdAt:{
+      type: Date,
+      default: Date.now,
     }
   },
   {

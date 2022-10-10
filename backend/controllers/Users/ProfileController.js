@@ -1,3 +1,4 @@
+import { json } from 'express';
 import asyncHandler from 'express-async-handler';
 
 // Models
@@ -27,7 +28,7 @@ const getPublicProfile = asyncHandler(async(req, res, next) =>{
 // @route GET api/profile
 // @access PUBLIC
 const getPublicProfiles = asyncHandler(async(req, res, next) =>{
-
+  res.status(200).json(res.advancedResults);
 })
 
 
