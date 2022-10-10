@@ -6,9 +6,12 @@ import colors from 'colors';
 import morgan from 'morgan';
 import cloudinary from 'cloudinary';
 
+// Routes
 import userRoutes from './routes/Users/userRoutes.js';
 import profileRoutes from './routes/Users/profileRoutes.js';
+import uploadRoutes from './routes/Uploads/uploadRoutes.js';
 
+// Middleware, Utlis, and Configs
 import errorResponse from './middleware/error.js';
 import connectDB from './config/db.js';
 
@@ -47,7 +50,7 @@ app.get('/', (req, res) =>{
   // Articles
 
   // Uploads
-
+  app.use('/api/uploads', uploadRoutes)
 
 // Static
 const __dirname = path.resolve()
