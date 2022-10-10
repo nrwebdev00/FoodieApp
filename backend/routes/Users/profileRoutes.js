@@ -2,8 +2,8 @@ import express from 'express'
 
 const router = express.Router()
 
-import { addProfileImage, deleteProfileImage, getPublicProfile, updateAvatar, updateProfile } from '../../controllers/Users/ProfileController.js';
+import { getPublicProfile } from '../../controllers/Users/ProfileController.js';
 
-router.get('/', getPublicProfile)
+router.get('/:id', getPublicProfile )
 
 export default router

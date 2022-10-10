@@ -40,7 +40,7 @@ app.get('/', (req, res) =>{
 // Routes
   // Users
   app.use('/api/users', userRoutes)
-  app.use('api/profile', profileRoutes)
+  app.use('/api/profile', profileRoutes)
 
   // Recipes
 

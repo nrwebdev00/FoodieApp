@@ -27,42 +27,8 @@ const profileSchema = mongoose.Schema(
       required: true,
       default: 'https://cdn.pixabay.com/photo/2016/10/27/08/11/cook-1773638__340.png'
     },
-    previousImages:[
-      {
-        asset_id:{
-          type: String,
-          required: true,
-        },
-        public_id:{
-          type: String,
-          required: true,
-        },
-        width:{
-          type: Number,
-          required: true,
-        },
-        height:{
-          type: Number,
-          required: true,
-        },
-        format:{
-          type: String,
-          required: true,
-        },
-        resource_type:{
-          type: String,
-          required: true,
-        },
-        url:{
-          type: String,
-          required: true,
-        },
-        secure_url:{
-          type: String,
-          required: true,
-        }
-      }
-    ],
+    following:[],
+    beingFollowedBy:[],
     facebookUrl:{
       type: String,
     },
