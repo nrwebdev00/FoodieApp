@@ -10,15 +10,22 @@ const recipeSchema = mongoose.Schema(
     title:{
       type: String,
       required: true,
+      default: 'New Recipe...'
     },
     desc:{
       type: String,
       required: true,
+      default: 'About New Recipe...'
     },
     mainImage:{
       type: String,
       required: true,
-    }
+      default:'https://res.cloudinary.com/dnrlolvnu/image/upload/v1664246338/recipeImage/recipe-02_mogrts.webp',
+    },
+    tag:[],
+    directions:[],
+    ingredients:[],
+    images:[],
   },
   {
     timestamps: true

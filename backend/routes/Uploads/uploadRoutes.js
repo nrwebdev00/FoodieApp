@@ -3,7 +3,7 @@ import express from 'express';
 import multer from 'multer';
 
 // Controllers
-import { uploadProfilePicture } from '../../controllers/Uploads/uploadController.js';
+import { uploadProfilePicture, uploadRecipePicture } from '../../controllers/Uploads/uploadController.js';
 
 // Middleware
 import { protectUserLogin } from '../../middleware/authMiddleware.js';
@@ -23,5 +23,6 @@ const upload = multer({
 });
 
 router.post('/profile', protectUserLogin, upload.single('profileImage'), uploadProfilePicture)
+router.post('/recipe', protectUserLogin, upload.single('recipeImage'), uploadRecipePicture)
 
 export default router

@@ -10,6 +10,7 @@ import cloudinary from 'cloudinary';
 import userRoutes from './routes/Users/userRoutes.js';
 import profileRoutes from './routes/Users/profileRoutes.js';
 import uploadRoutes from './routes/Uploads/uploadRoutes.js';
+import recipeRoutes from './routes/Recipes/recipeRoutes.js'
 
 // Middleware, Utlis, and Configs
 import errorResponse from './middleware/error.js';
@@ -46,6 +47,7 @@ app.get('/', (req, res) =>{
   app.use('/api/profile', profileRoutes)
 
   // Recipes
+  app.use('/api/recipe', recipeRoutes)
 
   // Articles
 
