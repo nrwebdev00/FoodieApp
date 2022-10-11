@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const recipeCoursesTagsSchema = mongoose.Schema(
+const recipeTagsSchema = mongoose.Schema(
   {
     recipe:{
       type: mongoose.Schema.Types.ObjectId,
@@ -14,6 +14,7 @@ const recipeCoursesTagsSchema = mongoose.Schema(
     type:{
       type: String,
       required: true,
+      enum:['courses','cuisines','holidays','ingredients' ]
     }
   },
   {
@@ -21,6 +22,6 @@ const recipeCoursesTagsSchema = mongoose.Schema(
   }
 )
 
-const RecipeCoursesTags = mongoose.model('RecipeCoursesTags',recipeCoursesTagsSchema)
+const RecipeTags = mongoose.model('RecipesTags',recipeTagsSchema)
 
-export default RecipeCoursesTags
+export default RecipeTags

@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler';
 
 // Models
 import Recipe from '../../models/Recipes/RecipeModel.js';
+import RecipeTags from '../../models/Recipes/RecipeTagsModel.js';
 
 // Utlis
 import ErrorHandler from '../../utlis/errorHandler.js';
@@ -46,6 +47,7 @@ const getRecipeCardSingle = asyncHandler(async(req, res, next) =>{
 // @access PUBLIC
 const getRecipeFullSingle = asyncHandler(async(req, res, next) =>{
   const recipe = await Recipe.findById( req.body.recipeId)
+  const recipeTags = await RecipeTags.find({ recipe: req.body.recipeId })
   let data = {};
 
   if(!recipe){
@@ -54,7 +56,11 @@ const getRecipeFullSingle = asyncHandler(async(req, res, next) =>{
 
   data.recipe = recipe
 
-  // TODO - Tags, Ingredients, Directions, Images - will add when crud completed
+  if(recipeTags){
+    data.tags = recipeTags
+  }
+
+  // TODO - *Tags, Ingredients, Directions, Images - will add when crud completed
 
   res.status(200).json({
     success: true,
@@ -103,12 +109,17 @@ const updateRecipe = asyncHandler(async(req, res, next) =>{
 // @access PRIVATE - ADMIN ONLY
 const deleteRecipe = asyncHandler(async(req, res, next) =>{
   const recipe = await Recipe.findById(req.body.recipeId)
+  const recipeTags = await RecipeTags.find({ recipe: req.body.recipeId})
 
   if(!recipe){
     return next(new ErrorHandler('Recipe Not Found', 400))
   }
 
-  // TODO - delete Tags, Ingredients, Directions, Images of Recipe
+  if(recipeTags.length !== 0){
+    await RecipeTags.deleteMany({ recipe: req.body.recipeId })
+  }
+
+  // TODO - delete *Tags, Ingredients, Directions, Images of Recipe
 
   await Recipe.findByIdAndDelete(req.body.recipeId)
 
