@@ -12,6 +12,14 @@ const advancedResults = (model, populate) => async (req, res, next) => {
 
   queryString = queryString.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
 
+  //Check Url if Recipe
+  const checkUrlRecipe = req.originalUrl.slice(5, 11).toLowerCase()
+
+  // if(checkUrlRecipe === 'recipe'){
+  //   queryString = {}
+  // }
+
+
   query = model.find(JSON.parse(queryString));
 
   if(req.query.select){

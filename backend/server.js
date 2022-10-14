@@ -7,11 +7,17 @@ import morgan from 'morgan';
 import cloudinary from 'cloudinary';
 
 // Routes
-import userRoutes from './routes/Users/userRoutes.js';
-import profileRoutes from './routes/Users/profileRoutes.js';
-import uploadRoutes from './routes/Uploads/uploadRoutes.js';
-import recipeRoutes from './routes/Recipes/recipeRoutes.js';
-import recipeTagsRoutes from './routes/Recipes/recipeTagsRoutes.js';
+  // User Routes
+  import userRoutes from './routes/Users/userRoutes.js';
+  import profileRoutes from './routes/Users/profileRoutes.js';
+  // Uploads
+  import uploadRoutes from './routes/Uploads/uploadRoutes.js';
+  // Recipe Routes
+  import recipeRoutes from './routes/Recipes/recipeRoutes.js';
+  import recipeTagsRoutes from './routes/Recipes/recipeTagsRoutes.js';
+  import recipeIngredientsRoutes from './routes/Recipes/recipeIngredientsRoutes.js';
+  import recipeDirectionsRoutes from './routes/Recipes/recipeDirectionRoutes.js';
+  import recipeImagesRoutes from './routes/Recipes/recipeImagesRoutes.js'
 
 // Middleware, Utlis, and Configs
 import errorResponse from './middleware/error.js';
@@ -50,6 +56,9 @@ app.get('/', (req, res) =>{
   // Recipes
   app.use('/api/recipe', recipeRoutes)
   app.use('/api/recipeTags', recipeTagsRoutes)
+  app.use('/api/recipeIngredients', recipeIngredientsRoutes)
+  app.use('/api/recipeDirections', recipeDirectionsRoutes)
+  app.use('/api/recipeImages', recipeImagesRoutes)
 
   // Articles
 

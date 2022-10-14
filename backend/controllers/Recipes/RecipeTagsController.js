@@ -17,7 +17,7 @@ const createRecipeTags = asyncHandler(async(req, res, next) =>{
 
 
   if(!recipe){
-    return next(new ErrorHandler('Recipe not Found', 401))
+    return next(new ErrorHandler('Recipe not Found', 400))
   }
 
   if(!name || !type){
@@ -31,19 +31,17 @@ const createRecipeTags = asyncHandler(async(req, res, next) =>{
     type: JSON.parse(JSON.stringify(type).toLowerCase())
   })
 
-  console.log(checkIfExists.length)
-
   if(checkIfExists.length !== 0 ){
     return next(new ErrorHandler('Recipe Tag Already Exists', 400))
   }
 
   const recipeTag = await RecipeTags.create({
-    recipe: recipe._id,
+    recipe: recipeId,
     name: JSON.parse(JSON.stringify(name).toLowerCase()),
     type: JSON.parse(JSON.stringify(type).toLowerCase())
   })
 
-  recipe.tag.push(recipeTag._id)
+  recipe.tag.push(recipeTag)
   recipe.save({ validateBeforeSave: false })
 
   if(!recipeTag){
@@ -70,11 +68,26 @@ const getAllRecipeTags = asyncHandler(async(req, res, next) =>{
 const deleteRecipeTags = asyncHandler(async(req, res, next) =>{
   const recipeTag = await RecipeTags.findById(req.body.recipeTagId)
 
+
   if(!recipeTag){
-    return next(new ErrorHandler('Recipe Tag Not Found'), 401)
+    return next(new ErrorHandler('Recipe Tag Not Found', 401))
   }
 
+  const recipe = await Recipe.findById(recipeTag.recipe)
+
   await RecipeTags.findByIdAndDelete(req.body.recipeTagId)
+
+
+  const newRecipeTag = await RecipeTags.find({ recipe: recipe._id })
+  recipe.tag = []
+  for(let i = 0; i < newRecipeTag.length; i++){
+    recipe.tag.push(newRecipeTag[i])
+  }
+
+  recipe.save({ validateBeforeSave: false })
+
+
+
 
   res.status(200).json({
     success: true,

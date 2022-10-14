@@ -25,6 +25,6 @@ const recipeIngredientSchema = mongoose.Schema(
   }
 )
 
-const RecipeIngredient = mongoose.model('RecipeIngredient', recipeIngredientSchema)
+const RecipeIngredients = mongoose.model('RecipeIngredients', recipeIngredientSchema)
 
-export default RecipeIngredient
+export default RecipeIngredients

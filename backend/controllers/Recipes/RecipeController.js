@@ -3,13 +3,17 @@ import asyncHandler from 'express-async-handler';
 // Models
 import Recipe from '../../models/Recipes/RecipeModel.js';
 import RecipeTags from '../../models/Recipes/RecipeTagsModel.js';
+import RecipeIngredients from '../../models/Recipes/RecipeIngredientsModel.js';
+import RecipeDirections from '../../models/Recipes/RecipeDirectionsModel.js';
+import RecipeImages from '../../models/Recipes/RecipeImagesModel.js';
 
 // Utlis
 import ErrorHandler from '../../utlis/errorHandler.js';
 
+
 // @desc Create Recipe
 // @route POST /api/recipe
-// @access PRIVATE - LOGIN STAFF, ADMIN
+// @access PRIVATE - LOGIN
 const createRecipe = asyncHandler(async (req, res, next) =>{
   const recipe = await Recipe.create({
     user: req.user._id
@@ -33,7 +37,11 @@ const getRecipeCardSingle = asyncHandler(async(req, res, next) =>{
   const recipe = await Recipe.findById( req.body.recipeId)
 
   if(!recipe){
-    return next(new ErrorHandler('Recipe Not Found', 401))
+    return next(new ErrorHandler('Recipe Not Found', 400))
+  }
+
+  if(!recipe.isPublicApproved){
+    return next(new ErrorHandler('Recipe Not Approved for Public View', 401))
   }
 
   res.status(200).json({
@@ -48,10 +56,17 @@ const getRecipeCardSingle = asyncHandler(async(req, res, next) =>{
 const getRecipeFullSingle = asyncHandler(async(req, res, next) =>{
   const recipe = await Recipe.findById( req.body.recipeId)
   const recipeTags = await RecipeTags.find({ recipe: req.body.recipeId })
+  const recipeIngredient = await RecipeIngredients.find({ recipe: req.body.recipeId })
+  const recipeDirection = await RecipeDirections.find({ recipe: req.body.recipeId })
+  const recipeImages = await RecipeImages.find({ recipe: req.body.recipeId })
   let data = {};
 
   if(!recipe){
-    return next(new ErrorHandler('Recipe Not Found', 401))
+    return next(new ErrorHandler('Recipe Not Found', 400))
+  }
+
+  if(!recipe.isPublicApproved){
+    return next(new ErrorHandler('Recipe Not Approved For Public View', 401))
   }
 
   data.recipe = recipe
@@ -60,7 +75,17 @@ const getRecipeFullSingle = asyncHandler(async(req, res, next) =>{
     data.tags = recipeTags
   }
 
-  // TODO - *Tags, Ingredients, Directions, Images - will add when crud completed
+  if(recipeIngredient){
+    data.ingredients = recipeIngredient
+  }
+
+  if(recipeDirection){
+    data.direction = recipeDirection
+  }
+
+  if(recipeImages){
+    data.images = recipeImages
+  }
 
   res.status(200).json({
     success: true,
@@ -76,12 +101,14 @@ const getAllRecipes = asyncHandler(async(req, res, next) =>{
   res.status(200).json(res.advancedResults)
 })
 
+// @desc Admin or Staff Approve Public View
+
 // @desc update Recipe
 // @route PUT /api/recipe/
 // @access PRIVATE - LOGIN STAFF, ADMIN
 const updateRecipe = asyncHandler(async(req, res, next) =>{
   const recipe = await Recipe.findById(req.body.recipeId);
-  const { title, desc, mainImage } = req.body;
+  const { title, desc, mainImage, isPublic } = req.body;
 
   if(!recipe){
     return next(new ErrorHandler('Recipe Not Found', 400))
@@ -90,6 +117,7 @@ const updateRecipe = asyncHandler(async(req, res, next) =>{
   recipe.title = title || recipe.title,
   recipe.desc = desc || recipe.desc,
   recipe.mainImage = mainImage || recipe.mainImage
+  recipe.isPublic = isPublic || recipe.isPublic
 
   const updatedRecipe = await recipe.save()
 
@@ -110,16 +138,28 @@ const updateRecipe = asyncHandler(async(req, res, next) =>{
 const deleteRecipe = asyncHandler(async(req, res, next) =>{
   const recipe = await Recipe.findById(req.body.recipeId)
   const recipeTags = await RecipeTags.find({ recipe: req.body.recipeId})
+  const recipeIngredients = await RecipeIngredients.find({ recipe: req.body.recipeId })
+  const recipeDirection = await RecipeDirections.find({ recipe: req.body.recipeId })
+  const recipeImages = await RecipeImages.find({ recipe: req.body.recipeId })
 
   if(!recipe){
     return next(new ErrorHandler('Recipe Not Found', 400))
   }
-
   if(recipeTags.length !== 0){
     await RecipeTags.deleteMany({ recipe: req.body.recipeId })
   }
 
-  // TODO - delete *Tags, Ingredients, Directions, Images of Recipe
+  if(recipeIngredients.length !== 0){
+    await RecipeIngredients.deleteMany({ recipe: req.body.recipeId })
+  }
+
+  if(recipeDirection.length !== 0){
+    await RecipeDirections.deleteMany({ recipe: req.body.recipeId })
+  }
+
+  if(recipeImages.length !== 0){
+    await RecipeImages.deleteMany({ recipe: req.body.recipeId })
+  }
 
   await Recipe.findByIdAndDelete(req.body.recipeId)
 

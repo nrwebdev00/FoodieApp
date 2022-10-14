@@ -22,6 +22,16 @@ const recipeSchema = mongoose.Schema(
       required: true,
       default:'https://res.cloudinary.com/dnrlolvnu/image/upload/v1664246338/recipeImage/recipe-02_mogrts.webp',
     },
+    isPublic:{
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    isPublicApproved:{
+      type: Boolean,
+      required: true,
+      default: false,
+    },
     tag:[],
     directions:[],
     ingredients:[],
